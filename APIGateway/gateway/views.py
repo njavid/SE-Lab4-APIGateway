@@ -246,7 +246,7 @@ def createBook(request):
 
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 3)
+                cache.set('stop', 'stop', 30)
 
             request.session['fail_counter'] = counter
 
