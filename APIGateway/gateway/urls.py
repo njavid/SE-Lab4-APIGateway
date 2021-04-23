@@ -10,6 +10,6 @@ urlpatterns = [
     path('create-book/', views.createBook, name='create-book'),
     path('update-book/', views.updateBook, name='update-book'),
     path('delete-book/', views.deleteBook, name='delete-book'),
-    # path('read-book/', views.readBook, name='read-book'),
+    path('read-book/', views.readBook, name='read-book'),
 
 ]

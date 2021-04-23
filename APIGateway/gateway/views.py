@@ -22,9 +22,7 @@ def register(request):
             request_type = "POST"
             api_url = 'http://127.0.0.1:3000/register/'
             response = requests.request(request_type, api_url, data=json.dumps(received_json_data), timeout=0.5)
-        
 
-            print("status=",response.status_code)
             if response.status_code == 201:
                 response_data['message'] = 'created successfully'
                 return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
@@ -84,7 +82,6 @@ def login(request):
 
 
         except Exception as e:
-            print(e)
             counter += 1
             if counter % 3 == 0:
                 cache.set('stop', 'stop', 30)
@@ -130,7 +127,6 @@ def profile(request):
 
 
         except Exception as e:
-            print("eror",e)
             counter += 1
             if counter % 3 == 0:
                 cache.set('stop', 'stop', 30)
@@ -182,7 +178,6 @@ def update(request):
 
 
         except Exception as e:
-            print("eror",e)
             counter += 1
             if counter % 3 == 0:
                 cache.set('stop', 'stop', 30)
@@ -207,6 +202,12 @@ def isAdmin(token):
     else:
         return False
 
+def is_json(myjson):
+  try:
+    json_object = json.loads(myjson)
+  except ValueError as e:
+    return False
+  return True
 
 @csrf_exempt
 def createBook(request):
@@ -295,7 +296,6 @@ def updateBook(request):
 
 
         except Exception as e:
-            print("eror",e)
             counter += 1
             if counter % 3 == 0:
                 cache.set('stop', 'stop', 30)
@@ -348,7 +348,7 @@ def deleteBook(request):
 
 
         except Exception as e:
-            print("eror",e)
+
             counter += 1
             if counter % 3 == 0:
                 cache.set('stop', 'stop', 30)
@@ -362,46 +362,50 @@ def deleteBook(request):
         response_data['message'] = 'Service not available'
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=503)
 
-# @csrf_exempt
-# def readBook(request):
-#     print("here")
-#     stop =  cache.get('stop')
+@csrf_exempt
+def readBook(request):
+    stop =  cache.get('stop')
 
-#     counter = request.session.get('fail_counter')
+    counter = request.session.get('fail_counter')
 
-#     if counter is None:
-#         counter = 0
+    if counter is None:
+        counter = 0
     
-#     response_data = {}
-#     if stop is None:
-#         try:
-#             received_json_data = json.loads(request.body)
-
-#             request_type = "POST"
-#             api_url = 'http://127.0.0.1:8000/read/'
-#             response = requests.request(request_type, api_url,data=json.dumps(received_json_data), headers=request.headers, timeout=0.5)
-
-#             if response.status_code == 200:
-#                 print(json.loads(response.text))
+    response_data = {}
+    if stop is None:
+        try:
             
-#                 response_data = json.loads(response.text)
+            if is_json(request.body) :
+                received_json_data = received_json_data = json.loads(request.body)
+            else:
+                received_json_data = {}
+            
+
+            request_type = "POST"
+            api_url = 'http://127.0.0.1:8000/read/'
+            response = requests.request(request_type, api_url,data=json.dumps(received_json_data), headers=request.headers, timeout=0.5)
+
+            if response.status_code == 200:
+
+                response_data = json.loads(response.text)
                 
-#                 return HttpResponse(json.dumps(response_data), content_type="application/json", status=200)
-#             else:
-#                 response_data['message'] = 'method not allowed'
-#                 return HttpResponse(json.dumps(response_data), content_type="application/json", status=405)
-#         except Exception as e:
-#             print("eror",e)
-#             counter += 1
-#             if counter % 3 == 0:
-#                 cache.set('stop', 'stop', 30)
+                return HttpResponse(json.dumps(response_data), content_type="application/json", status=200)
+            else:
+                response_data['message'] = 'method not allowed'
+                return HttpResponse(json.dumps(response_data), content_type="application/json", status=405)
 
-#             request.session['fail_counter'] = counter
 
-#             response_data['message'] = 'Timeout! Please try again.'
-#             return HttpResponse(json.dumps(response_data), content_type="application/json", status=408)
+        except Exception as e:
+            counter += 1
+            if counter % 3 == 0:
+                cache.set('stop', 'stop', 30)
 
-#     else:
-#         response_data['message'] = 'Service not available'
-#         return HttpResponse(json.dumps(response_data), content_type="application/json", status=503)
+            request.session['fail_counter'] = counter
+
+            response_data['message'] = 'Timeout! Please try again.'
+            return HttpResponse(json.dumps(response_data), content_type="application/json", status=408)
+
+    else:
+        response_data['message'] = 'Service not available'
+        return HttpResponse(json.dumps(response_data), content_type="application/json", status=503)
         
