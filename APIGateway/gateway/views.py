@@ -6,7 +6,7 @@ from django.core.cache import cache
 
 @csrf_exempt
 def register(request):
-    stop =  cache.get('stop')
+    stop_user_service =  cache.get('stop_user_service')
 
     counter = request.session.get('fail_counter')
 
@@ -14,7 +14,7 @@ def register(request):
         counter = 0
     
     response_data = {}
-    if stop is None:
+    if stop_user_service is None:
 
         try:
             received_json_data = json.loads(request.body)
@@ -38,7 +38,7 @@ def register(request):
         except Exception as e:
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_user_service', 'stop_user_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -51,7 +51,7 @@ def register(request):
 
 
 def login(request):
-    stop =  cache.get('stop')
+    stop_user_service =  cache.get('stop_user_service')
 
     counter = request.session.get('fail_counter')
 
@@ -59,7 +59,7 @@ def login(request):
         counter = 0
     
     response_data = {}
-    if stop is None:
+    if stop_user_service is None:
         try:
             received_json_data = json.loads(request.body)
             
@@ -84,7 +84,7 @@ def login(request):
         except Exception as e:
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_user_service', 'stop_user_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -97,7 +97,7 @@ def login(request):
 
 
 def profile(request):
-    stop =  cache.get('stop')
+    stop_user_service =  cache.get('stop_user_service')
 
     counter = request.session.get('fail_counter')
 
@@ -106,7 +106,7 @@ def profile(request):
 
     response_data = {}
 
-    if stop is None:
+    if stop_user_service is None:
         try:
 
             request_type = "GET"
@@ -129,7 +129,7 @@ def profile(request):
         except Exception as e:
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_user_service', 'stop_user_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -142,7 +142,7 @@ def profile(request):
     
 @csrf_exempt
 def update(request):
-    stop =  cache.get('stop')
+    stop_user_service =  cache.get('stop_user_service')
 
     counter = request.session.get('fail_counter')
 
@@ -150,7 +150,7 @@ def update(request):
         counter = 0
     
     response_data = {}
-    if stop is None:
+    if stop_user_service is None:
         try:
             received_json_data = json.loads(request.body)
 
@@ -180,7 +180,7 @@ def update(request):
         except Exception as e:
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_user_service', 'stop_user_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -211,7 +211,7 @@ def is_json(myjson):
 
 @csrf_exempt
 def createBook(request):
-    stop =  cache.get('stop')
+    stop_book_service =  cache.get('stop_book_service')
 
     counter = request.session.get('fail_counter')
 
@@ -220,7 +220,7 @@ def createBook(request):
     
     response_data = {}
 
-    if stop is None:
+    if stop_book_service is None:
         try:
             received_json_data = json.loads(request.body)
 
@@ -246,7 +246,7 @@ def createBook(request):
 
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_book_service', 'stop_book_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -259,7 +259,7 @@ def createBook(request):
 
 @csrf_exempt
 def updateBook(request):
-    stop =  cache.get('stop')
+    stop_book_service =  cache.get('stop_book_service')
 
     counter = request.session.get('fail_counter')
 
@@ -267,7 +267,7 @@ def updateBook(request):
         counter = 0
     
     response_data = {}
-    if stop is None:
+    if stop_book_service is None:
         try:
             received_json_data = json.loads(request.body)
 
@@ -298,7 +298,7 @@ def updateBook(request):
         except Exception as e:
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_book_service', 'stop_book_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -311,7 +311,7 @@ def updateBook(request):
 
 @csrf_exempt
 def deleteBook(request):
-    stop =  cache.get('stop')
+    stop_book_service =  cache.get('stop_book_service')
 
     counter = request.session.get('fail_counter')
 
@@ -319,7 +319,7 @@ def deleteBook(request):
         counter = 0
     
     response_data = {}
-    if stop is None:
+    if stop_book_service is None:
         try:
             received_json_data = json.loads(request.body)
 
@@ -351,7 +351,7 @@ def deleteBook(request):
 
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_book_service', 'stop_book_service', 30)
 
             request.session['fail_counter'] = counter
 
@@ -364,7 +364,7 @@ def deleteBook(request):
 
 @csrf_exempt
 def readBook(request):
-    stop =  cache.get('stop')
+    stop_book_service =  cache.get('stop_book_service')
 
     counter = request.session.get('fail_counter')
 
@@ -372,7 +372,7 @@ def readBook(request):
         counter = 0
     
     response_data = {}
-    if stop is None:
+    if stop_book_service is None:
         try:
             
             if is_json(request.body) :
@@ -398,7 +398,7 @@ def readBook(request):
         except Exception as e:
             counter += 1
             if counter % 3 == 0:
-                cache.set('stop', 'stop', 30)
+                cache.set('stop_book_service', 'stop_book_service', 30)
 
             request.session['fail_counter'] = counter
 
