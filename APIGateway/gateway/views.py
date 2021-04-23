@@ -19,16 +19,9 @@ def register(request):
         try:
             received_json_data = json.loads(request.body)
             
-            data = {
-                'username' : received_json_data["username"],
-                'password' : received_json_data["password"],
-                'email' : received_json_data["email"],
-                'mobile' : received_json_data["mobile"],
-            }
-            print(data)
             request_type = "POST"
             api_url = 'http://127.0.0.1:3000/register/'
-            response = requests.request(request_type, api_url, data=json.dumps(data), timeout=0.5)
+            response = requests.request(request_type, api_url, data=json.dumps(received_json_data), timeout=0.5)
         
 
             print("status=",response.status_code)
@@ -72,15 +65,9 @@ def login(request):
         try:
             received_json_data = json.loads(request.body)
             
-            data = {
-                'username' : received_json_data["username"],
-                'password' : received_json_data["password"],
-        
-            }
-            print(data)
             request_type = "GET"
             api_url = 'http://127.0.0.1:3000/login/'
-            response = requests.request(request_type, api_url, data=json.dumps(data), timeout=0.5)
+            response = requests.request(request_type, api_url, data=json.dumps(received_json_data), timeout=0.5)
         
 
             if response.status_code == 200:
@@ -130,12 +117,9 @@ def profile(request):
             response = requests.request(request_type, api_url, headers=request.headers, timeout=0.5)
 
             if response.status_code == 201:
-                response_data['username'] = json.loads(response.text)['username']
-                response_data['password'] = json.loads(response.text)['password']
-                response_data['email'] = json.loads(response.text)['email']
-                response_data['mobile'] = json.loads(response.text)['mobile']
+                data = json.loads(response.text)
 
-                return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
+                return HttpResponse(json.dumps(data), content_type="application/json", status=201)
             elif response.status_code == 400:
                 response_data['message'] = 'Invalid token. Please log in again.'
                 return HttpResponse(json.dumps(response_data), content_type="application/json", status=400)
@@ -212,5 +196,3 @@ def update(request):
         response_data['message'] = 'Service not available'
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=503)
  
-
-
