@@ -20,7 +20,7 @@ def register(request):
             received_json_data = json.loads(request.body)
             
             request_type = "POST"
-            api_url = 'http://127.0.0.1:3000/register/'
+            api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/register/'
             response = requests.request(request_type, api_url, data=json.dumps(received_json_data), timeout=0.5)
 
             if response.status_code == 201:
@@ -64,7 +64,7 @@ def login(request):
             received_json_data = json.loads(request.body)
             
             request_type = "GET"
-            api_url = 'http://127.0.0.1:3000/login/'
+            api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/login/'
             response = requests.request(request_type, api_url, data=json.dumps(received_json_data), timeout=0.5)
         
 
@@ -110,7 +110,7 @@ def profile(request):
         try:
 
             request_type = "GET"
-            api_url = 'http://127.0.0.1:3000/profile/'
+            api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/profile/'
             response = requests.request(request_type, api_url, headers=request.headers, timeout=0.5)
 
             if response.status_code == 201:
@@ -165,7 +165,7 @@ def update(request):
                 data["mobile"] = received_json_data["mobile"]
 
             request_type = "POST"
-            api_url = 'http://127.0.0.1:3000/update/'
+            api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/update/'
             response = requests.request(request_type, api_url,data=json.dumps(data), headers=request.headers, timeout=0.5)
 
             if response.status_code == 200:
@@ -194,7 +194,7 @@ def update(request):
 
 def isAdmin(token):
     request_type = "POST"
-    api_url = 'http://127.0.0.1:3000/identify/'
+    api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/identify/'
     response = requests.request(request_type, api_url, data=json.dumps({'token':token}), timeout=0.5)
     res = json.loads(response.text)
     if res['admin']:
@@ -228,7 +228,7 @@ def createBook(request):
 
             if admin :
                 request_type = "POST"
-                api_url = 'http://127.0.0.1:8000/create/'
+                api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/create/'
                 response = requests.request(request_type, api_url, data=json.dumps(received_json_data), timeout=0.5)
 
 
@@ -276,7 +276,7 @@ def updateBook(request):
             if admin:
 
                 request_type = "POST"
-                api_url = 'http://127.0.0.1:8000/update/'
+                api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/update/'
                 response = requests.request(request_type, api_url,data=json.dumps(received_json_data), headers=request.headers, timeout=0.5)
 
                 if response.status_code == 200:
@@ -328,7 +328,7 @@ def deleteBook(request):
             if admin :
 
                 request_type = "POST"
-                api_url = 'http://127.0.0.1:8000/delete/'
+                api_url = 'https://2886795304-8000-simba09b.environments.katacoda.com/delete/'
                 response = requests.request(request_type, api_url,data=json.dumps(received_json_data), headers=request.headers, timeout=0.5)
 
                 if response.status_code == 200:
